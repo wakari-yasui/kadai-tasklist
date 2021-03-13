@@ -1,9 +1,13 @@
-<h1>タスク一覧ページ</h1>
+<% if logged_in? %>
+  <p>ログイン完了ユーザ名: <%= current_user.name %></p>
+  <p></p><%= link_to 'ログアウト', logout_path, method: :delete %></p>
+  <h1>タスク一覧ページ</h1>
 
-<ul>
-  <% @tasks.each do |task| %>
-    <li><%= link_to task.id, task %>: <%= task.status %> &gt;<%= task.content %></li>
-  <% end %>
-</ul>
-
+  <ul>
+    <% @tasks.each do |task| %>
+      <li><%= link_to task.id, task %>: <%= task.status %> &gt;<%= task.content %></li>
+    <% end %>
+  </ul>
 <%= link_to '新規タスクの作成', new_task_path %>
+<% else %>
+<% end %>

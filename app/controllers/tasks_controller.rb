@@ -2,7 +2,9 @@ class TasksController < ApplicationController
   before_action :require_user_logged_in
   before_action :correct_user, only: [:update, :destroy]
   def index
-    @tasks = Task.all
+    if logged_in?
+      @tasks = current_user.tasks.order(id: :desc)
+    end
   end
   
   def show
@@ -10,7 +12,7 @@ class TasksController < ApplicationController
   end
   
   def new
-    @task = Task.new
+    @task = current_user.tasks.build
   end
   
   def create
@@ -38,7 +40,7 @@ class TasksController < ApplicationController
       redirect_to @task
     else
       flash.now[:danger] = 'Task が更新されませんでした'
-      redirect_back(fallback_location: login_url)
+      render :edit
     end
   end
   
